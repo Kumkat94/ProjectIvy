@@ -74,11 +74,12 @@
           target: go
                     Go ivy, go!
          ================================= -->
-    <target name="go" depends="install-ivy, generate-src" description="--&gt; resolve dependencies, compile and run the project">
+    <target name="go" depends="install-ivy, generate-src, resolve" description="--&gt; resolve dependencies, compile and run the project">
 		<echo message="using ivy to resolve commons-lang 2.1..."/>
         <!-- here comes the magic line: asks ivy to resolve a dependency on 
              commons-lang 2.1 and to build an ant path with it from its cache  -->
-        <ivy:cachepath organisation="commons-lang" module="commons-lang" revision="2.1" pathid="lib.path.id" inline="true"/>
+
+        <!--<ivy:cachepath organisation="commons-lang" module="commons-lang" revision="2.1" pathid="lib.path.id" inline="true"/>-->
         
 		<echo message="compiling..."/>
         <mkdir dir="${build.dir}"/>
@@ -88,14 +89,21 @@
 We are now ready to execute our simple program with its dependency on commons-lang.
 Let's go!
 		</echo>
-        <java classname="example.Hello">
+       
+    </target>
+
+    <!-- ================================= 
+          target: run              
+         ================================= -->
+    <target name="run" description="--&gt; Exécute java code">
+         <java classname="example.Hello">
             <classpath>
                 <path refid="lib.path.id"/>
                 <path location="${build.dir}"/>
             </classpath>
         </java>
-    </target>
 
+    </target>
 	<!-- ================================= 
           target: generate-src
             'Generates' the class source. It actually just echo a simple java 
@@ -119,7 +127,13 @@ public class Hello {
 }
         </echo>
     </target>
-	
+	<!-- ================================= 
+          target: resolve              
+         ================================= -->
+    <target name="resolve">
+        <ivy:resolve/>
+        <ivy:cachepath pathid="lib.path.id"/>
+    </target>
     <!-- ================================= 
           target: clean              
          ================================= -->
