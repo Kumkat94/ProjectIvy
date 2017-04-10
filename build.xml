@@ -74,7 +74,7 @@
           target: go
                     Go ivy, go!
          ================================= -->
-    <target name="go" depends="install-ivy, generate-src, resolve" description="--&gt; resolve dependencies, compile and run the project">
+    <target name="go" depends="install-ivy, resolve" description="--&gt; resolve dependencies, compile and run the project">
 		<echo message="using ivy to resolve commons-lang 2.1..."/>
         <!-- here comes the magic line: asks ivy to resolve a dependency on 
              commons-lang 2.1 and to build an ant path with it from its cache  -->
@@ -95,7 +95,7 @@ Let's go!
     <!-- ================================= 
           target: run              
          ================================= -->
-    <target name="run" description="--&gt; Exécute java code">
+    <target name="run" depends= "go" description="--&gt; Exécute java code">
          <java classname="example.Hello">
             <classpath>
                 <path refid="lib.path.id"/>
@@ -130,7 +130,7 @@ public class Hello {
 	<!-- ================================= 
           target: resolve              
          ================================= -->
-    <target name="resolve">
+    <target name="resolve" description="retrieve dependencies with ivy">
         <ivy:resolve/>
         <ivy:cachepath pathid="lib.path.id"/>
     </target>
