@@ -95,7 +95,7 @@ Let's go!
     <!-- ================================= 
           target: run              
          ================================= -->
-    <target name="run" depends= "go" description="--&gt; Exécute java code">
+    <target name="run" depends= "go, report" description="--&gt; Exécute java code">
          <java classname="example.Hello">
             <classpath>
                 <path refid="lib.path.id"/>
@@ -157,4 +157,16 @@ public class Hello {
 	<target name="clean-cache" depends="install-ivy" description="--&gt; clean the ivy cache">
 		<ivy:cleancache/>
 	</target>
+
+    <!-- ================================= 
+          target: report              
+         ================================= -->
+    <target name="report" depends="go">
+        <echo message="Je suis dans le report"/>
+        <mkdir dir="report"/>
+        <ivy:report todir="report"/>
+        <echo message="J'ai terminé le report"/>
+
+    </target>
+
 </project>
