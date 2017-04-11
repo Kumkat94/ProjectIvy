@@ -3,7 +3,7 @@ package example;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.WordUtils;
-import com.opencsv.*;
+import com.opencsv.CSVReader;
 import java.util.List;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,22 +13,36 @@ public class Hello {
     public static void main(String[] args) {
         String  message = "hello ivy !";
         System.out.println("standard message : " + message);
-        System.out.println("capitalized by " + WordUtils.class.getName() 
-                                + " : " + WordUtils.capitalizeFully(message));
+        System.out.println("capitalized by " + WordUtils.class.getName()+ " : " + WordUtils.capitalizeFully(message));
 
         int monmax=0;
-        CSVReader reader = new CSVREADER(new FileReader("data.csv"));
-        List<String[]> myEntries=reader.readAll();
+        int nb=0;
 
-        for(String[] line: myEntries){
-        	for(String val: line){
-        		
-        		if (Integer.parseInt(val) > monmax){
-        			monmax = Integer.parseInt(val);
-        		}
-        	}
-        }
-        System.println("Le Max est:"+monmax);
+        try{
+        	CSVReader reader = new CSVReader(new FileReader("data.csv"));
+        
+	        try{	
+		        List<String[]> myEntries=reader.readAll();
+
+			        for(String[] line: myEntries){
+			        	for(String val: line){
+			        		nb++;
+			        		if (Integer.parseInt(val) > monmax){
+			        			monmax = Integer.parseInt(val);
+
+			        		}
+			        	}
+			        }
+		        }
+		        catch(IOException e){
+		        	System.out.println("Problème readAll()");
+		        }
+		}
+		catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+        System.out.println("Nombre lu:"+nb);
+        System.out.println("Le Max est:"+monmax);
 
     }
 }
